@@ -18,19 +18,17 @@ export default function App() {
     fetch(`${pokeUrl}${endPoint}`)
       .then((response) => response.json())
       .then((data) => {
-        // Aquí mapeamos cada Pokémon y hacemos una solicitud fetch adicional para obtener la imagen
         const pokemonDetails = data.results.map((pokemon) => {
           return fetch(pokemon.url)
             .then((response) => response.json())
             .then((details) => {
               return {
                 name: pokemon.name,
-                image: details.sprites.front_default, // Obtén la imagen del Pokémon
+                image: details.sprites.front_default, 
               }
             })
         })
 
-        // Esperamos a que todas las solicitudes fetch se completen
         Promise.all(pokemonDetails).then((results) => {
           setData(results)
           setNext(data.next)
